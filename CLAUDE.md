@@ -39,12 +39,29 @@ Company folders MUST follow: `{Sector} - {Company Name}/`
 
 ## Critical Rules
 
-### Protect company data — no external sharing
-All company data processed by this tool is **confidential**. Follow these rules without exception:
+### Protect company data — everything stays local
+All company data processed by this tool is **confidential**. Every piece of data — raw files, extracted numbers, generated analysis — must stay on the local machine. Follow these rules without exception:
+
+**All outputs stay local:**
+- Write all analysis ONLY to the designated local files (`Claude Summary/` outputs). Never write company data to any other location.
 - **Never suggest committing or pushing generated outputs** (Running Summary, Monthly Reports, Team Updates, or populated HTML dashboards) to git. The `.gitignore` blocks most of these, but the HTML template files (Dashboard, Red Flags, Promise Tracker, Collaboration Opportunities) are tracked as empty templates. Once they contain company data, do NOT stage or commit them.
-- **Never suggest uploading, emailing, or posting** company financials, investor updates, or generated analysis to any external service, API, or URL.
 - **Never include real company data in commit messages, PR descriptions, or git logs.** These are public if the repo is pushed.
-- **When generating Collaboration Opportunities:** this file is designed to be shared externally. Even so, do NOT include specific revenue figures, margin percentages, cash positions, burn rates, or any numbers that came from confidential updates. Describe synergies in qualitative terms only.
+
+**No external transmission:**
+- **Never suggest uploading, emailing, or posting** company financials, investor updates, or generated analysis to any external service, API, or URL.
+- **Never run commands that send data over the network** — no `curl`, `wget`, `httpie`, `nc`, API calls, webhooks, or any tool that transmits data externally. All processing must use local-only tools (file reads, Python scripts for Excel parsing, etc.).
+- **Never pipe or redirect company data** to any command that could transmit it (e.g., no `cat file | curl`, no writing to `/dev/tcp`, no logging to remote services).
+- **Never suggest installing packages or tools** to process company data — only use what's already available locally (`openpyxl` for Excel, standard Python, built-in shell tools). If a tool isn't available, ask the user to install it themselves.
+
+**During processing:**
+- When summarizing financials in your responses (chat output), keep it to what's needed for the user to review your work. Don't dump raw data tables into chat unnecessarily — write them to the output files instead.
+- **Never echo or print full file contents** of company documents to the terminal. Read, extract, and write to output files.
+- If you need to show the user a data point for confirmation, show the minimum necessary — not the full document.
+
+**Collaboration Opportunities (externally shareable):**
+- This file is designed to be shared with founders and co-investors. Even so, do NOT include specific revenue figures, margin percentages, cash positions, burn rates, or any numbers that came from confidential updates. Describe synergies in qualitative terms only.
+
+**Git protections:**
 - **If the user asks to push to a remote:** warn them that the HTML dashboard files may contain company data and suggest they verify `git diff` before pushing. Do not push without this warning.
 - The `.gitignore` is pre-configured to block raw data files (PDF, Excel, PPT, CSV, DOC) and generated markdown outputs. Do not modify `.gitignore` to weaken these protections.
 

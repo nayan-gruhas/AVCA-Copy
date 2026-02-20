@@ -106,14 +106,30 @@ portfolio-tracker/
 
 ## Data Privacy
 
-This repo is designed to be **public** — it's a template others can clone and use. All company data stays local. The protections are built in:
+This repo is designed to be **public** — it's a template others can clone and use. **All company data stays strictly local.** The protections are built in at multiple layers:
 
-**What's protected by `.gitignore` (automatically excluded from git):**
-- All raw company files: PDFs, Excel (.xlsx/.xls), PowerPoint (.pptx/.ppt), CSV, Word docs
-- Generated analysis: `Running Summary.md`, `Monthly Report*`, `Team Update*`
+### How your data is protected
 
-**What requires your attention:**
-- The HTML dashboards (Portfolio Dashboard, Red Flags, Promise Tracker, Collaboration Opportunities) ship as **empty templates** in this repo. Once you process companies, they contain real financial data. **Do not commit the populated versions.** If `git status` shows them as modified, that's your company data — don't stage or push it.
+**Layer 1 — `.gitignore` (automatic):**
+- All raw company files are blocked: PDFs, Excel (.xlsx/.xls), PowerPoint (.pptx/.ppt), CSV, Word docs
+- Generated analysis files are blocked: `Running Summary.md`, `Monthly Report*`, `Team Update*`
+- These files **cannot** be committed even if you run `git add .`
+
+**Layer 2 — Claude's instructions (`CLAUDE.md`):**
+- Claude is instructed to write all analysis **only** to local files in `Claude Summary/`
+- Claude will **never** run commands that send data over the network (no `curl`, `wget`, API calls, etc.)
+- Claude will **never** suggest uploading, emailing, or posting company data to any external service
+- Claude will **never** include company financials in commit messages or git logs
+- All processing uses local-only tools (file reads, Python/openpyxl for Excel, shell utilities)
+
+**Layer 3 — Offline HTML outputs:**
+- All HTML dashboards use **inline CSS only** — no external stylesheets, fonts, CDN links, analytics, or tracking
+- Opening them in your browser makes **zero network requests** — fully offline
+- You can verify this yourself: open any HTML file and check the browser's Network tab
+
+### What requires your attention
+
+- The HTML dashboards ship as **empty templates** in this repo. Once you process companies, they contain real financial data. **Do not commit the populated versions.** If `git status` shows them as modified, that's your company data — don't stage or push it.
 - **Commit messages and PR descriptions** are public. Never reference specific company financials in them.
 
 **Before pushing any changes:**
@@ -126,8 +142,6 @@ git diff                # Review the actual content — make sure no company dat
 ```bash
 git reset HEAD~1        # Undo the last commit (keeps your files intact)
 ```
-
-Claude is instructed (via `CLAUDE.md`) to never suggest committing or sharing company data externally.
 
 ## Requirements
 
