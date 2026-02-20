@@ -1,11 +1,29 @@
-# Company update files (don't commit raw investor data)
-# Uncomment the lines below if you want to keep company data out of git
-# *.pdf
-# *.xlsx
-# *.xls
-# *.pptx
-# *.ppt
-# *.csv
+# =============================================================
+# DATA PRIVACY — This .gitignore protects company data
+# =============================================================
+# This repo is a PUBLIC template. The .gitignore is configured
+# to prevent company financials, investor updates, and generated
+# analysis from being accidentally committed and pushed.
+#
+# DO NOT weaken these rules. If you need to share outputs,
+# export them manually — never commit them to git.
+# =============================================================
+
+# Company update files (raw investor data — never commit)
+*.pdf
+*.xlsx
+*.xls
+*.pptx
+*.ppt
+*.csv
+*.doc
+*.docx
+
+# Generated outputs containing company data
+# (Templates are tracked separately — these catch populated/dated files)
+Claude Summary/Running Summary.md
+Claude Summary/Monthly Report - [JFMASOND]*.md
+Claude Summary/Team Update - [JFMASOND]*.html
 
 # OS files
 .DS_Store

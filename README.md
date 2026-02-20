@@ -104,6 +104,31 @@ portfolio-tracker/
 └── .gitignore
 ```
 
+## Data Privacy
+
+This repo is designed to be **public** — it's a template others can clone and use. All company data stays local. The protections are built in:
+
+**What's protected by `.gitignore` (automatically excluded from git):**
+- All raw company files: PDFs, Excel (.xlsx/.xls), PowerPoint (.pptx/.ppt), CSV, Word docs
+- Generated analysis: `Running Summary.md`, `Monthly Report*`, `Team Update*`
+
+**What requires your attention:**
+- The HTML dashboards (Portfolio Dashboard, Red Flags, Promise Tracker, Collaboration Opportunities) ship as **empty templates** in this repo. Once you process companies, they contain real financial data. **Do not commit the populated versions.** If `git status` shows them as modified, that's your company data — don't stage or push it.
+- **Commit messages and PR descriptions** are public. Never reference specific company financials in them.
+
+**Before pushing any changes:**
+```bash
+git diff --name-only    # Review what files changed
+git diff                # Review the actual content — make sure no company data is included
+```
+
+**If you accidentally committed company data:**
+```bash
+git reset HEAD~1        # Undo the last commit (keeps your files intact)
+```
+
+Claude is instructed (via `CLAUDE.md`) to never suggest committing or sharing company data externally.
+
 ## Requirements
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (Anthropic's CLI tool)

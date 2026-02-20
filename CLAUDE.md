@@ -39,6 +39,15 @@ Company folders MUST follow: `{Sector} - {Company Name}/`
 
 ## Critical Rules
 
+### Protect company data — no external sharing
+All company data processed by this tool is **confidential**. Follow these rules without exception:
+- **Never suggest committing or pushing generated outputs** (Running Summary, Monthly Reports, Team Updates, or populated HTML dashboards) to git. The `.gitignore` blocks most of these, but the HTML template files (Dashboard, Red Flags, Promise Tracker, Collaboration Opportunities) are tracked as empty templates. Once they contain company data, do NOT stage or commit them.
+- **Never suggest uploading, emailing, or posting** company financials, investor updates, or generated analysis to any external service, API, or URL.
+- **Never include real company data in commit messages, PR descriptions, or git logs.** These are public if the repo is pushed.
+- **When generating Collaboration Opportunities:** this file is designed to be shared externally. Even so, do NOT include specific revenue figures, margin percentages, cash positions, burn rates, or any numbers that came from confidential updates. Describe synergies in qualitative terms only.
+- **If the user asks to push to a remote:** warn them that the HTML dashboard files may contain company data and suggest they verify `git diff` before pushing. Do not push without this warning.
+- The `.gitignore` is pre-configured to block raw data files (PDF, Excel, PPT, CSV, DOC) and generated markdown outputs. Do not modify `.gitignore` to weaken these protections.
+
 ### One company at a time
 Process ONE company per cycle. Read all files for that company, write the summary, update the dashboard and red flags, then STOP and ask which company to pick next. This keeps context clean and prevents mixing up data between companies.
 
