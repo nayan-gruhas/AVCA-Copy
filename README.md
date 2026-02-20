@@ -1,13 +1,21 @@
-# Portfolio Tracker
+# AVCA
 
-An AI-powered portfolio tracking system for investment teams. Drop company updates (PDFs, Excel files, PPTs) into folders. Claude reads them, extracts financials and key signals, and produces structured outputs — summaries, dashboards, red flag trackers, and team-shareable updates.
+An AI-powered investment management tool for venture teams. It does two things:
+
+1. **Portfolio Tracking** — Drop quarterly updates (PDFs, Excel, PPTs) into company folders. Claude extracts financials, flags risks, tracks promises, and produces structured dashboards your team can act on.
+
+2. **Deal Flow Management** — Drop pitch decks into the Deal Flow folder. Claude scores each pitch on a 100-point rubric, ranks them by priority, and produces a single evaluation dashboard. When you invest, the company graduates to your portfolio.
+
+Both workflows run locally. All company data stays on your machine — nothing is sent over the network.
 
 ## Quick Start
+
+### Portfolio Tracking
 
 1. **Clone this repo**
    ```bash
    git clone <repo-url>
-   cd portfolio-tracker
+   cd AVCA
    ```
 
 2. **Create a folder for each portfolio company**
@@ -33,38 +41,45 @@ An AI-powered portfolio tracking system for investment teams. Drop company updat
    - `Claude Summary/Red Flags & Follow-ups.html` — action items and warnings
    - `Claude Summary/Promise Tracker.html` — company accountability dashboard
    - `Claude Summary/Collaboration Opportunities.html` — cross-portfolio synergies
-   - `Claude Summary/Deal Flow.html` — pitch evaluation & prioritization
    - `Claude Summary/Team Update - {Month} {Year}.html` — shareable team summary
 
-6. **Evaluate incoming pitches** (optional)
-   ```bash
-   mkdir -p "Deal Flow/Fintech - NovaPay"
-   # Drop pitch deck into the folder
-   claude
+### Deal Flow Management
+
+1. **Create a folder for the pitch inside `Deal Flow/`**
    ```
-   Then say: *"Evaluate the new pitches"*
+   mkdir -p "Deal Flow/Fintech - NovaPay"
+   mkdir -p "Deal Flow/Climate - GreenGrid"
+   ```
+
+2. **Drop pitch documents into the folder** — decks, one-pagers, financial models
+
+3. **Run Claude Code** and say: *"Evaluate the new pitches"*
+
+4. **Open the output:** `Claude Summary/Deal Flow.html` — ranked prioritization dashboard
 
 ## What You Get
 
+### Portfolio Tracking Outputs
+
 | Output | Format | Purpose |
 |--------|--------|---------|
-| **Running Summary** | Markdown | Detailed per-company analysis with financials, metrics, signals |
 | **Portfolio Dashboard** | HTML | One-page view of all companies — health, revenue, burn, signals |
-| **Red Flags & Follow-ups** | HTML | Urgent items, financial warnings, positive signals, promises to track |
+| **Red Flags & Follow-ups** | HTML | Urgent items, financial warnings, positive signals |
 | **Promise Tracker** | HTML | Accountability dashboard — tracks company commitments and delivery rates |
 | **Collaboration Opportunities** | HTML | Cross-portfolio synergies and value creation opportunities (externally shareable) |
-| **Deal Flow** | HTML | Pitch evaluation & prioritization — scores incoming pitches on a 100-point rubric |
+| **Running Summary** | Markdown | Detailed per-company analysis with financials, metrics, signals |
 | **Team Update** | HTML | Shareable summary — one card per company, designed for team distribution |
 | **Monthly Report** | Markdown | End-of-month compilation for the investment team |
 
+### Deal Flow Outputs
+
+| Output | Format | Purpose |
+|--------|--------|---------|
+| **Deal Flow Dashboard** | HTML | Pitch evaluation & prioritization — scores pitches on a 100-point rubric, ranked by priority tier |
+
 ## How It Works
 
-Claude reads the `CLAUDE.md` file in this repo for all its instructions. When you start a Claude Code session in this directory, it knows:
-- How to find and process new files
-- What data to extract (revenue, margins, cash, segments, red flags)
-- How to structure summaries consistently
-- How to update the HTML outputs
-- How to handle Excel files (via Python/openpyxl)
+Claude reads the `CLAUDE.md` file in this repo for all its instructions. When you start a Claude Code session in this directory, it knows how to handle both workflows.
 
 ### Portfolio Processing Flow
 
@@ -89,18 +104,18 @@ Drop pitch docs into Deal Flow/{Sector} - {Company}/
         ↓
 Run Claude → detects new pitches
         ↓
-Evaluates ONE pitch at a time (100-point rubric)
+Evaluates ONE pitch at a time (100-point rubric: Team, Market, Traction, Product, Business Model, Deal Terms)
         ↓
-Updates 1 file: Deal Flow.html (pitch card + comparison table + sectors)
+Updates Deal Flow.html (pitch card + comparison table + sector distribution)
         ↓
 Asks which pitch to evaluate next
         ↓
-If invested → graduates to portfolio company folder
+If invested → company graduates to portfolio tracking
 ```
 
 ### Detecting New Files
 
-Run the detection script to see which files haven't been processed yet:
+Run the detection script to see what hasn't been processed yet. It scans both portfolio folders and Deal Flow in separate passes:
 
 ```bash
 bash detect_new_files.sh
@@ -109,30 +124,33 @@ bash detect_new_files.sh
 ## Folder Structure
 
 ```
-portfolio-tracker/
+AVCA/
 ├── README.md                         ← You are here
 ├── CLAUDE.md                         ← Instructions for Claude (don't delete this)
 ├── detect_new_files.sh               ← Script to find unprocessed files
+│
 ├── Claude Summary/                   ← All Claude-generated outputs
-│   ├── Portfolio Dashboard.html
-│   ├── Red Flags & Follow-ups.html
-│   ├── Promise Tracker.html
-│   ├── Collaboration Opportunities.html
-│   ├── Deal Flow.html                ← Pitch evaluation & prioritization
-│   ├── Team Update - Feb 2026.html
-│   ├── Running Summary.md
-│   └── Monthly Report - Feb 2026.md
-├── Deal Flow/                        ← Incoming pitches for evaluation
+│   ├── Portfolio Dashboard.html      ← Portfolio tracking
+│   ├── Red Flags & Follow-ups.html   ← Portfolio tracking
+│   ├── Promise Tracker.html          ← Portfolio tracking
+│   ├── Collaboration Opportunities.html ← Portfolio tracking
+│   ├── Deal Flow.html                ← Deal flow management
+│   ├── Team Update - Feb 2026.html   ← Portfolio tracking
+│   ├── Running Summary.md            ← Portfolio tracking
+│   └── Monthly Report - Feb 2026.md  ← Portfolio tracking
+│
+├── Deal Flow/                        ← Incoming pitches (deal flow)
 │   ├── README.md
 │   ├── Fintech - NovaPay/
 │   │   └── Series A Deck.pdf
 │   └── Climate - GreenGrid/
 │       └── Pitch Deck.pdf
-├── Fintech - Acme Payments/          ← One folder per portfolio company
+│
+├── Fintech - Acme Payments/          ← Portfolio company
 │   ├── Q3 FY26 Board Deck.pdf
 │   ├── MIS Dec 2025.xlsx
 │   └── ...
-├── Climate - GreenCo/
+├── Climate - GreenCo/                ← Portfolio company
 │   └── ...
 └── .gitignore
 ```
@@ -146,6 +164,7 @@ This repo is designed to be **public** — it's a template others can clone and 
 **Layer 1 — `.gitignore` (automatic):**
 - All raw company files are blocked: PDFs, Excel (.xlsx/.xls), PowerPoint (.pptx/.ppt), CSV, Word docs
 - Generated analysis files are blocked: `Running Summary.md`, `Monthly Report*`, `Team Update*`
+- Deal Flow pitch files are explicitly blocked with additional patterns
 - These files **cannot** be committed even if you run `git add .`
 
 **Layer 2 — Claude's instructions (`CLAUDE.md`):**
@@ -162,7 +181,7 @@ This repo is designed to be **public** — it's a template others can clone and 
 
 ### What requires your attention
 
-- The HTML dashboards ship as **empty templates** in this repo. Once you process companies, they contain real financial data. **Do not commit the populated versions.** If `git status` shows them as modified, that's your company data — don't stage or push it.
+- The HTML dashboards ship as **empty templates** in this repo. Once you process companies or pitches, they contain real data. **Do not commit the populated versions.** If `git status` shows them as modified, that's your company data — don't stage or push it.
 - **Commit messages and PR descriptions** are public. Never reference specific company financials in them.
 
 **Before pushing any changes:**
@@ -184,10 +203,11 @@ git reset HEAD~1        # Undo the last commit (keeps your files intact)
 ## Tips
 
 - **Folder naming matters.** Always use `{Sector} - {Company Name}/`. No dates in folder names.
-- **One company at a time.** Claude processes companies sequentially to keep context clean.
+- **One at a time.** Claude processes companies and pitches sequentially to keep context clean.
 - **Incremental updates.** When new files arrive for a company already processed, Claude adds a dated update section — it doesn't rewrite the whole summary.
 - **Edit CLAUDE.md** to add your company details to the Portfolio Companies table. This helps Claude track what's in the portfolio.
-- **Check the tracker.** The "Key Files Processed" section in CLAUDE.md tracks what's been read. If a file isn't listed there, Claude will pick it up on the next run.
+- **Check the tracker.** The "Key Files Processed" and "Pitches Evaluated" sections in CLAUDE.md track what's been read.
+- **Graduation.** When you invest in a pitch, move its folder from `Deal Flow/` to the repo root and process it as a portfolio company.
 
 ## Customization
 
@@ -195,6 +215,7 @@ The system is designed to be customizable:
 
 - **Sectors:** Use whatever sector labels fit your portfolio (SaaS, Climate, Fintech, Health, etc.)
 - **Template:** Edit the Standard Summary Template in CLAUDE.md to match what your team cares about
+- **Scoring rubric:** Edit the Scoring Framework in CLAUDE.md to adjust dimension weights for deal flow
 - **HTML styling:** The HTML templates use embedded CSS — modify the styles to match your brand
 - **Extraction focus:** Edit "What to Extract" in CLAUDE.md to prioritize different metrics
 
