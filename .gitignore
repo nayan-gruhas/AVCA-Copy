@@ -1,0 +1,27 @@
+# Company update files (don't commit raw investor data)
+# Uncomment the lines below if you want to keep company data out of git
+# *.pdf
+# *.xlsx
+# *.xls
+# *.pptx
+# *.ppt
+# *.csv
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Claude Code internals
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Temporary files
+*.tmp
+*.bak

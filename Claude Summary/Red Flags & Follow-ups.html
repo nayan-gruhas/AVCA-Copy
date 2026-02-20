@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Flags & Follow-ups</title>
+<style>
+  :root {
+    --red: #dc2626; --red-bg: #fef2f2; --red-border: #fca5a5;
+    --amber: #d97706; --amber-bg: #fffbeb; --amber-border: #fcd34d;
+    --green: #16a34a; --green-bg: #f0fdf4; --green-border: #86efac;
+    --blue: #2563eb; --blue-bg: #eff6ff; --blue-border: #93c5fd;
+    --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+    --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50); color: var(--gray-900); line-height: 1.5; padding: 2rem;
+  }
+  .header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-900);
+  }
+  h1 { font-size: 1.75rem; font-weight: 700; }
+  .subtitle { color: var(--gray-500); font-size: 0.875rem; }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-header {
+    font-size: 1.05rem; font-weight: 600; margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem; border-radius: 6px;
+  }
+  .section-urgent .section-header { background: var(--red-bg); color: var(--red); border-left: 4px solid var(--red); }
+  .section-warning .section-header { background: var(--amber-bg); color: var(--amber); border-left: 4px solid var(--amber); }
+  .section-positive .section-header { background: var(--green-bg); color: var(--green); border-left: 4px solid var(--green); }
+  .section-promises .section-header { background: var(--blue-bg); color: var(--blue); border-left: 4px solid var(--blue); }
+
+  table {
+    width: 100%; border-collapse: collapse; font-size: 0.8rem;
+    background: white; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  th {
+    background: var(--gray-900); color: white; padding: 0.55rem 0.75rem;
+    text-align: left; font-weight: 600; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--gray-50); }
+
+  .company { font-weight: 600; white-space: nowrap; }
+  .severity-high { color: var(--red); font-weight: 600; }
+  .severity-medium { color: var(--amber); font-weight: 600; }
+  .severity-low { color: var(--gray-500); }
+  .status-pending {
+    display: inline-block; font-size: 0.65rem; padding: 0.15rem 0.45rem;
+    border-radius: 3px; background: var(--amber-bg); color: var(--amber);
+    border: 1px solid var(--amber-border); font-weight: 500;
+  }
+  .check-date { color: var(--gray-500); font-size: 0.75rem; }
+
+  .empty-state {
+    text-align: center; padding: 3rem 2rem; color: var(--gray-500);
+    background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .empty-state h2 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--gray-700); }
+
+  .footer {
+    margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--gray-200);
+    font-size: 0.75rem; color: var(--gray-500);
+  }
+
+  @media print { body { padding: 0.5rem; } table { font-size: 0.7rem; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Red Flags & Follow-ups</h1>
+    <div class="subtitle">Portfolio Tracker</div>
+  </div>
+  <div class="subtitle">Last updated: —</div>
+</div>
+
+<!-- SECTIONS: Claude populates these as companies are processed -->
+
+<!-- Urgent — Act This Quarter -->
+<div class="section section-urgent">
+  <div class="section-header">Urgent &mdash; Act This Quarter</div>
+  <table>
+    <thead><tr><th>Company</th><th>Flag</th><th>Action Needed</th><th>Status</th></tr></thead>
+    <tbody>
+      <!-- Claude adds rows here -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Financial Warning Signs -->
+<div class="section section-warning">
+  <div class="section-header">Financial Warning Signs</div>
+  <table>
+    <thead><tr><th>Company</th><th>Signal</th><th>Severity</th><th>First Noticed</th></tr></thead>
+    <tbody>
+      <!-- Claude adds rows here -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Positive Signals -->
+<div class="section section-positive">
+  <div class="section-header">Positive Signals to Track</div>
+  <table>
+    <thead><tr><th>Company</th><th>Signal</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <!-- Claude adds rows here -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Promises to Track -->
+<div class="section section-promises">
+  <div class="section-header">Promises to Track &mdash; Verify Next Quarter</div>
+  <table>
+    <thead><tr><th>Company</th><th>What They Said</th><th>Check In</th></tr></thead>
+    <tbody>
+      <!-- Claude adds rows here -->
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Red Flags & Follow-ups &middot; Generated by Claude &middot; Updated each processing cycle
+</div>
+
+</body>
+</html>
